@@ -17,7 +17,8 @@ class QueuePoller(object):
     def poll(self):
         if not self.dq.waiting:
             return
-        for p, q in iteritems(self.queues):
+        #for p, q in iteritems(self.queues):
+        for p, q in randitems(self.queues):
             c = yield maybeDeferred(q.count)
             if c:
                 msg = yield maybeDeferred(q.pop)
