@@ -71,6 +71,10 @@ class JsonSqliteDict(MutableMapping):
     def iteritems(self):
         q = "select key, value from %s" % self.table
         return ((self.decode(x[0]), self.decode(x[1])) for x in self.conn.execute(q))
+    
+    def randitems(self):
+        q = "select key, value from %s by random()" % self.table
+        return ((self.decode(x[0]), self.decode(x[1])) for x in self.conn.execute(q))
 
     def items(self):
         return list(self.iteritems())
