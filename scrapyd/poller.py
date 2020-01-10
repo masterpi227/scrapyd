@@ -18,8 +18,8 @@ class QueuePoller(object):
     def poll(self):
         if not self.dq.waiting:
             return
-        ps = []
-        ps = shuffle([ k for k in viewkeys(self.queues)])
+        ps = [k for k in viewkeys(self.queues)]
+        shuffle(ps)
         #for p, q in iteritems(self.queues):
         if ps is not None:
             for p in ps:
