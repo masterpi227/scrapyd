@@ -18,7 +18,7 @@ class QueuePoller(object):
     def poll(self):
         if not self.dq.waiting:
             return
-        ps = shuffle(list(viewkeys(self.queues)))
+        ps = shuffle([ k for k in viewkeys(self.queues)])
         #for p, q in iteritems(self.queues):
         for p in ps:
             q = self.queues[p]
