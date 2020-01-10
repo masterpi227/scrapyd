@@ -18,15 +18,17 @@ class QueuePoller(object):
     def poll(self):
         if not self.dq.waiting:
             return
+        ps = []
         ps = shuffle([ k for k in viewkeys(self.queues)])
         #for p, q in iteritems(self.queues):
-        for p in ps:
-            q = self.queues[p]
-            c = yield maybeDeferred(q.count)
-            if c:
-                msg = yield maybeDeferred(q.pop)
-                if msg is not None:  # In case of a concurrently accessed queue
-                    returnValue(self.dq.put(self._message(msg, p)))
+        if ps is not None:
+            for p in ps:
+                q = self.queues[p]
+                c = yield maybeDeferred(q.count)
+                if c:
+                    msg = yield maybeDeferred(q.pop)
+                    if msg is not None:  # In case of a concurrently accessed queue
+                        returnValue(self.dq.put(self._message(msg, p)))
 
     def next(self):
         return self.dq.get()
